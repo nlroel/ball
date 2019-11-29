@@ -1,0 +1,8 @@
+I = imread('ball.jpg');
+I = undistortImage(I,cameraParams);
+% figure
+% subplot(1,2,1),imshow(I);
+% subpIlot(1,2,2),imshow(J);
+I = I(:,:,1);
+B
+imshow(uint8(I))
