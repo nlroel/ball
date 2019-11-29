@@ -1,4 +1,5 @@
 I = imread('ball.jpg');
+cameraParams = calibrator();
 I = undistortImage(I,cameraParams);
 % figure
 % subplot(1,2,1),imshow(I);
@@ -7,7 +8,10 @@ I = I(:,:,1);
 BW = roipoly(I);
 I(BW==0)=0;
 imshow(I)
-BW1 = edge(I,'sobel');    %自动选择阈值用Sobel算子进行边缘检测（二值化）
+[m,n]=size(I);
+level=graythresh(I);%使用graythresh计算灰度门槛
+I=imbinarize(I,level);
+% BW1 = edge(I,'sobel');    %自动选择阈值用Sobel算子进行边缘检测（二值化）
  
 figure(1)
 subplot(121)
@@ -80,6 +84,11 @@ for N=1:num
       end
      
 end
-   subplot(122)
-   imshow(hough_circle);title('检测结果');title('检测结果');
+subplot(122)
+imshow(hough_circle);title('检测结果');title('检测结果');
+
+s = 0.25;
+f = mean(cameraParams.FocalLength);
+d=s/(sqrt(f^2*a^2+b^4)/(2*b^2) + 1)
+   
 
